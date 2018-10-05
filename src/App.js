@@ -1,28 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Motion, spring } from "react-motion";
+import "./App.css";
 
-class App extends Component {
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { open: false };
+  }
+
+  handleMouseDown = () => {
+    this.setState({ open: !this.state.open });
+  };
+
+  handleTouchStart = e => {
+    e.preventDefault();
+    this.handleMouseDown();
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <button
+          onMouseDown={this.handleMouseDown}
+          onTouchStart={this.handleTouchStart}
+        >
+          Toggle
+        </button>
+
+        <Motion style={{ x: spring(this.state.open ? 400 : 0) }}>
+          {({ x }) => (
+            // children is a callback which should accept the current value of
+            // `style`
+            <div className="demo0">
+              <div
+                className="demo0-block"
+                style={{
+                  WebkitTransform: `translate3d(${x}px, 0, 0)`,
+                  transform: `translate3d(${x}px, 0, 0)`
+                }}
+              />
+            </div>
+          )}
+        </Motion>
       </div>
     );
   }
 }
-
-export default App;
