@@ -5,43 +5,49 @@ import "./App.css";
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { open: false };
+    this.state = { items: [] };
   }
 
-  handleMouseDown = () => {
-    this.setState({ open: !this.state.open });
-  };
-
-  handleTouchStart = e => {
-    e.preventDefault();
-    this.handleMouseDown();
+  handleOnClick = () => {
+    console.log(this.state);
+    this.setState({ items: [...this.state.items, 1] });
   };
 
   render() {
+    const squares = this.state.items.map((_, k) => (
+      <div key={k} className="demo0-block" />
+    ));
     return (
       <div>
-        <button
-          onMouseDown={this.handleMouseDown}
-          onTouchStart={this.handleTouchStart}
+        <div>{this.state.items.length}</div>
+        <Motion
+          style={{
+            x: spring(50)
+          }}
         >
-          Toggle
-        </button>
-
-        <Motion style={{ x: spring(this.state.open ? 400 : 0) }}>
           {({ x }) => (
             // children is a callback which should accept the current value of
             // `style`
-            <div className="demo0">
-              <div
-                className="demo0-block"
-                style={{
-                  WebkitTransform: `translate3d(0, ${x}px, 0)`,
-                  transform: `translate3d(0, ${x}px, 0)`
-                }}
-              />
+            <div className="outer">
+              {this.state.items.map((_, k) => (
+                <div
+                  className="demo0-block"
+                  key={k}
+                  style={{
+                    position: "absolute",
+                    bottom: k * x,
+                    left: "100px"
+                  }}
+                >
+                  {k}
+                </div>
+              ))}
             </div>
           )}
         </Motion>
+        <button className="toggle" onClick={this.handleOnClick}>
+          Toggle
+        </button>
       </div>
     );
   }
