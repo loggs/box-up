@@ -35,8 +35,8 @@ export default class App extends React.Component {
               <div
                 className="demo0-block"
                 style={{
-                  WebkitTransform: `translate3d(${x}px, 0, 0)`,
-                  transform: `translate3d(${x}px, 0, 0)`
+                  WebkitTransform: `translate3d(0, ${x}px, 0)`,
+                  transform: `translate3d(0, ${x}px, 0)`
                 }}
               />
             </div>
